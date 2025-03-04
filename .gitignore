@@ -1,0 +1,42 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Linux
+.directory
+.fuse_hidden*
+
+# IDE project files
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Compiled class files
+*.class
+
+# Code editor
+.vscode/
+*.code-workspace
+*.sublime-project
+*.sublime-workspace
+/sublime-*
+.atom/
+.atom.db
+*.swp
+.*.swo
+
+# Composer
+composer.lock
+vendor/
+
+# Any more
+*.log
+*.bak
+*.tmp
