@@ -6,12 +6,12 @@ interface CaptchaInterface
 {
     public static function activate(
         string $containerID,
-        ConfigCaptchaInterface $config,
+        CaptchaConfigInterface $config,
         ?int $mode = 1
     ): void;
 
     public static function check(
         string $token,
-        ConfigCaptchaInterface $config
+        CaptchaConfigInterface $config
     ): bool;
 }

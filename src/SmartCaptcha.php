@@ -1,13 +1,8 @@
 <?php
 
-namespace PBorisenko\SpamProtection\Captcha;
+namespace PBorisenko\SpamProtection;
 
-use \Exception;
-use PBorisenko\SpamProtection\Interfaces\CaptchaInterface;
-use PBorisenko\SpamProtection\Interfaces\ConfigCaptchaInterface;
-use PBorisenko\SpamProtection\Exception\Message;
-
-class SmartCaptcha implements CaptchaInterface
+class SmartCaptcha implements Interfaces\CaptchaInterface
 {
     const VISIBLE = 1;
     const INVISIBLE = 2;
@@ -16,7 +11,7 @@ class SmartCaptcha implements CaptchaInterface
 
     public static function activate(
         string $containerID,
-        ConfigCaptchaInterface $config,
+        Interfaces\CaptchaConfigInterface $config,
         ?int $mode = 1
     ): void
     {
@@ -37,11 +32,11 @@ class SmartCaptcha implements CaptchaInterface
                 echo self::fancyboxInvisible($containerID, $config);
                 break;
                 
-            default: throw new Exception(Message::UNKNOWN_CAPTCHA_MODE);
+            default: throw new \Exception(Exception\Message::UNKNOWN_CAPTCHA_MODE);
         }
     }
 
-    public static function check(string $token, ConfigCaptchaInterface $config): bool
+    public static function check(string $token, Interfaces\CaptchaConfigInterface $config): bool
     {
         $ch = curl_init();
         $endpoint = $config->getEndpoint();
@@ -88,7 +83,7 @@ class SmartCaptcha implements CaptchaInterface
 
     private static function visible(
         string $containerID, 
-        ConfigCaptchaInterface $config
+        Interfaces\CaptchaConfigInterface $config
     ): string
     {
         ob_start();
@@ -111,7 +106,7 @@ class SmartCaptcha implements CaptchaInterface
 
     private static function invisible(
         string $containerID, 
-        ConfigCaptchaInterface $config
+        Interfaces\CaptchaConfigInterface $config
     ): string
     {
         ob_start();
@@ -161,7 +156,7 @@ class SmartCaptcha implements CaptchaInterface
 
     private static function fancyboxVisible(
         string $containerID, 
-        ConfigCaptchaInterface $config
+        Interfaces\CaptchaConfigInterface $config
     ): string
     {
         ob_start();
@@ -185,7 +180,7 @@ class SmartCaptcha implements CaptchaInterface
 
     private static function fancyboxInvisible(
         string $containerID, 
-        ConfigCaptchaInterface $config
+        Interfaces\CaptchaConfigInterface $config
     ): string
     {
         ob_start();

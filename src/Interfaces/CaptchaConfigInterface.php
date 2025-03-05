@@ -2,7 +2,7 @@
 
 namespace PBorisenko\SpamProtection\Interfaces;
 
-interface ConfigCaptchaInterface
+interface CaptchaConfigInterface
 {
     public function getSiteKey(): string;
 

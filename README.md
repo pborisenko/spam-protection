@@ -29,31 +29,33 @@ __Bitrix Framework__
 
 __Bitrix Framework__
 ```php
+use Bitrix\Main\Page\Asset;
 use Bitrix\Main\Config\Configuration;
-use PBorisenko\SpamProtection;
+use PBorisenko\SpamProtection\CaptchaConfig;
 
-$configCaptcha = new SpamProtection\Config\Captcha\Bitrix(Configuration::getValue('smart_captcha'));
-$configCaptcha->getScriptSource();
+$captchaConfig = CaptchaConfig::apply(Configuration::getValue('smart_captcha'));
+Asset::getInstance()->addJs($captchaConfig->getScriptSource());
 ```
 Отредактируйте код веб-формы, добавив к ней вывод контейнера капчи.
 ```php
 use Bitrix\Main\Config\Configuration;
-use PBorisenko\SpamProtection;
+use PBorisenko\SpamProtection\SmartCaptcha;
+use PBorisenko\SpamProtection\CaptchaConfig;
 
-SpamProtection\Captcha\SmartCaptcha::activate(
+SmartCaptcha::activate(
     '<идентификатор контейнера>',
-    new SpamProtection\Config\Captcha\Bitrix(Configuration::getValue('smart_captcha')),
-    SpamProtection\Captcha\SmartCaptcha::VISIBLE
+    CaptchaConfig::apply(Configuration::getValue('smart_captcha'))
 );
 ```
 Отредактируйте обработчик запроса, добавив проверку токена на валидность.
 ```php
 use Bitrix\Main\Config\Configuration;
-use PBorisenko\SpamProtection;
+use PBorisenko\SpamProtection\SmartCaptcha;
+use PBorisenko\SpamProtection\CaptchaConfig;
 
-$isValidToken = SpamProtection\Captcha\SmartCaptcha::check(
+$isValidToken = SmartCaptcha::check(
     '<ваш токен>',
-    new SpamProtection\Config\Captcha\Bitrix(Configuration::getValue('smart_captcha'))
+    CaptchaConfig::apply(Configuration::getValue('smart_captcha'))
 );
 
 if ($isValidToken) {
@@ -63,15 +65,16 @@ if ($isValidToken) {
 }
 ```
 ### Использование невидимой капчи
-При выводе контейнера в веб-форме необходимо заменить модификатор режима `VISIBLE` на `INVISIBLE`.
+При выводе контейнера в веб-форме необходимо явно указать модификатор режима `INVISIBLE`.
 ```php
 use Bitrix\Main\Config\Configuration;
-use PBorisenko\SpamProtection;
+use PBorisenko\SpamProtection\SmartCaptcha;
+use PBorisenko\SpamProtection\CaptchaConfig;
 
-SpamProtection\Captcha\SmartCaptcha::activate(
+SmartCaptcha::activate(
     '<идентификатор контейнера>',
-    new SpamProtection\Config\Captcha\Bitrix(Configuration::getValue('smart_captcha')),
-    SpamProtection\Captcha\SmartCaptcha::INVISIBLE
+    CaptchaConfig::apply(Configuration::getValue('smart_captcha')),
+    SmartCaptcha::INVISIBLE
 );
 ```
 Обязательно измените ваш обработчик формы (событие submit), таким образом, чтобы перед отправкой запроса была выполнена проверка на наличие токена и запуск проверки пользователя, если токен отсутствует.
@@ -96,8 +99,8 @@ $.ajax({
 ### Поддержка jQuery плагина FancyBox
 Если веб-форма открывается в всплывающем окне, используйте режимы `FANCYBOX_VISIBLE` или `FANCYBOX_INVISIBLE` для капчи с виджетом или невидимой капчи соответственно.
 ```php
-use PBorisenko\SpamProtection;
+use PBorisenko\SpamProtection\SmartCaptcha;
 
-SpamProtection\Captcha\SmartCaptcha::FACYBOX_VISIBLE;
-SpamProtection\Captcha\SmartCaptcha::FANCYBOX_INVISIBLE;
+SmartCaptcha::FACYBOX_VISIBLE;
+SmartCaptcha::FANCYBOX_INVISIBLE;
 ```
