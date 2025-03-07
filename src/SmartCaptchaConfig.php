@@ -2,7 +2,7 @@
 
 namespace PBorisenko\SpamProtection;
 
-class CaptchaConfig implements Interfaces\CaptchaConfigInterface
+class SmartCaptchaConfig implements Interfaces\CaptchaConfigInterface
 {
     private array $config;
 
@@ -11,7 +11,7 @@ class CaptchaConfig implements Interfaces\CaptchaConfigInterface
         $this->config = $configurationValue;
     }
 
-    public static function apply(array $configurationValue): CaptchaConfig
+    public static function apply(array $configurationValue): SmartCaptchaConfig
     {
         return new self($configurationValue);
     }

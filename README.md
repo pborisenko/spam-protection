@@ -31,31 +31,31 @@ __Bitrix Framework__
 ```php
 use Bitrix\Main\Page\Asset;
 use Bitrix\Main\Config\Configuration;
-use PBorisenko\SpamProtection\CaptchaConfig;
+use PBorisenko\SpamProtection\SmartCaptchaConfig;
 
-$captchaConfig = CaptchaConfig::apply(Configuration::getValue('smart_captcha'));
+$captchaConfig = SmartCaptchaConfig::apply(Configuration::getValue('smart_captcha'));
 Asset::getInstance()->addJs($captchaConfig->getScriptSource());
 ```
 Отредактируйте код веб-формы, добавив к ней вывод контейнера капчи.
 ```php
 use Bitrix\Main\Config\Configuration;
 use PBorisenko\SpamProtection\SmartCaptcha;
-use PBorisenko\SpamProtection\CaptchaConfig;
+use PBorisenko\SpamProtection\SmartCaptchaConfig;
 
 SmartCaptcha::activate(
     '<идентификатор контейнера>',
-    CaptchaConfig::apply(Configuration::getValue('smart_captcha'))
+    SmartCaptchaConfig::apply(Configuration::getValue('smart_captcha'))
 );
 ```
 Отредактируйте обработчик запроса, добавив проверку токена на валидность.
 ```php
 use Bitrix\Main\Config\Configuration;
 use PBorisenko\SpamProtection\SmartCaptcha;
-use PBorisenko\SpamProtection\CaptchaConfig;
+use PBorisenko\SpamProtection\SmartCaptchaConfig;
 
 $isValidToken = SmartCaptcha::check(
     '<ваш токен>',
-    CaptchaConfig::apply(Configuration::getValue('smart_captcha'))
+    SmartCaptchaConfig::apply(Configuration::getValue('smart_captcha'))
 );
 
 if ($isValidToken) {
@@ -69,11 +69,11 @@ if ($isValidToken) {
 ```php
 use Bitrix\Main\Config\Configuration;
 use PBorisenko\SpamProtection\SmartCaptcha;
-use PBorisenko\SpamProtection\CaptchaConfig;
+use PBorisenko\SpamProtection\SmartCaptchaConfig;
 
 SmartCaptcha::activate(
     '<идентификатор контейнера>',
-    CaptchaConfig::apply(Configuration::getValue('smart_captcha')),
+    SmartCaptchaConfig::apply(Configuration::getValue('smart_captcha')),
     SmartCaptcha::INVISIBLE
 );
 ```

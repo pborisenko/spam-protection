@@ -1,7 +1,7 @@
 {
     "name": "pborisenko/spam-protection",
     "description": "Tools pack from protect your web forms",
-    "version": "0.2.0",
+    "version": "0.2.1",
     "type": "library",
     "authors": [
         {
