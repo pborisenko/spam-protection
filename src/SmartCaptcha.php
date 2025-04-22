@@ -164,14 +164,16 @@ class SmartCaptcha implements Interfaces\CaptchaInterface
         <div id="<?= $containerID ?>" class="smart-captcha" data-sitekey="<?= $config->getSiteKey() ?>"></div>
         <script>
             if (window.jQuery.fancybox && window.smartCaptcha) {
-                jQuery('[data-fancybox]').fancybox({'afterShow': function(instance, slide) {
-                    slide.$content.find('#<?= $containerID ?>').each(function(){
-                        smartCaptcha.render(this, {
-                            'sitekey': '<?= $config->getSiteKey() ?>',
-                            'test': <?= $config->isDebug() ? 'true' : 'false' ?>
+                jQuery('[data-fancybox]').each(function(){
+                    this.fancybox({'afterShow': function(instance, slide) {
+                        slide.$content.find('#<?= $containerID ?>').each(function(){
+                            smartCaptcha.render(this, {
+                                'sitekey': '<?= $config->getSiteKey() ?>',
+                                'test': <?= $config->isDebug() ? 'true' : 'false' ?>
+                            });
                         });
-                    });
-                }});
+                    }});
+                });
             }
         </script>
         <?
@@ -203,23 +205,25 @@ class SmartCaptcha implements Interfaces\CaptchaInterface
             }
 
             if (window.jQuery.fancybox && window.smartCaptcha) {
-                jQuery('[data-fancybox]').fancybox({'afterShow': function(instance, slide) {
-                    slide.$content.find('#<?= $containerID ?>').each(function(){
-                        widgetId = smartCaptcha.render(this, {
-                            'sitekey': '<?= $config->getSiteKey() ?>',
-                            'invisible': true,
-                            'hideShield': <?= $config->isHiddenShield() ? 'true' : 'false' ?>,
-                            'callback': callback,
-                            'test': <?= $config->isDebug() ? 'true' : 'false' ?>
+                jQuery('[data-fancybox]').each(function(){
+                    this.fancybox({'afterShow': function(instance, slide) {
+                        slide.$content.find('#<?= $containerID ?>').each(function(){
+                            widgetId = smartCaptcha.render(this, {
+                                'sitekey': '<?= $config->getSiteKey() ?>',
+                                'invisible': true,
+                                'hideShield': <?= $config->isHiddenShield() ? 'true' : 'false' ?>,
+                                'callback': callback,
+                                'test': <?= $config->isDebug() ? 'true' : 'false' ?>
+                            });
+                            this.setAttribute('data-wid', widgetId);
+                            window.smartCaptcha.subscribe(
+                                widgetId,
+                                'success',
+                                () => jQuery(this).closest('form').trigger('submit')
+                            );
                         });
-                        this.setAttribute('data-wid', widgetId);
-                        window.smartCaptcha.subscribe(
-                            widgetId,
-                            'success',
-                            () => jQuery(this).closest('form').trigger('submit')
-                        );
-                    });
-                }});
+                    }});
+                }):
             }
         </script>
         <?
