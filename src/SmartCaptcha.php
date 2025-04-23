@@ -112,9 +112,7 @@ class SmartCaptcha implements Interfaces\CaptchaInterface
         ob_start();
         ?>
         <div id="<?= $containerID ?>" style="display: none;"></div>
-        <script>
-            let widgetId;
-            
+        <script>            
             function callback(token) {
                 if (typeof token === "string" && token.length > 0) {
                     const eventEmitter = document.querySelector('#<?= $containerID ?>');
@@ -129,7 +127,7 @@ class SmartCaptcha implements Interfaces\CaptchaInterface
             }
 
             if (window.smartCaptcha) {
-                widgetId = smartCaptcha.render(
+                let widgetId = smartCaptcha.render(
                     document.querySelector('#<?= $containerID ?>'), 
                     {
                         'sitekey': '<?= $config->getSiteKey() ?>',
@@ -165,7 +163,7 @@ class SmartCaptcha implements Interfaces\CaptchaInterface
         <script>
             if (window.jQuery.fancybox && window.smartCaptcha) {
                 jQuery('[data-fancybox]').each(function(){
-                    this.fancybox({'afterShow': function(instance, slide) {
+                    jQuery(this).fancybox({'afterShow': function(instance, slide) {
                         slide.$content.find('#<?= $containerID ?>').each(function(){
                             smartCaptcha.render(this, {
                                 'sitekey': '<?= $config->getSiteKey() ?>',
@@ -188,9 +186,7 @@ class SmartCaptcha implements Interfaces\CaptchaInterface
         ob_start();
         ?>
         <div id="<?= $containerID ?>" style="display: none;"></div>
-        <script>
-            let widgetId;
-            
+        <script>            
             function callback(token) {
                 if (typeof token === "string" && token.length > 0) {
                     const eventEmitter = document.querySelector('#<?= $containerID ?>');
@@ -206,9 +202,9 @@ class SmartCaptcha implements Interfaces\CaptchaInterface
 
             if (window.jQuery.fancybox && window.smartCaptcha) {
                 jQuery('[data-fancybox]').each(function(){
-                    this.fancybox({'afterShow': function(instance, slide) {
+                    jQuery(this).fancybox({'afterShow': function(instance, slide) {
                         slide.$content.find('#<?= $containerID ?>').each(function(){
-                            widgetId = smartCaptcha.render(this, {
+                            let widgetId = smartCaptcha.render(this, {
                                 'sitekey': '<?= $config->getSiteKey() ?>',
                                 'invisible': true,
                                 'hideShield': <?= $config->isHiddenShield() ? 'true' : 'false' ?>,
